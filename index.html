@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vital Signs Data Processor</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation Header -->
+        <nav class="nav-header">
+            <div class="nav-content">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>VitalProcessor</span>
+                    <span class="version">v2.0</span>
+                </div>
+                <div class="nav-controls">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="info-btn" id="infoBtn">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">Vital Signs</span>
+                    <span>Data Processor</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Process thousands of ZOLL JSON files instantly in your browser.
+                    <br>Zero uploads, maximum privacy, unlimited capacity.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <i class="fas fa-bolt"></i>
+                        <span>Lightning Fast</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>100% Private</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-infinity"></i>
+                        <span>Unlimited Files</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Processing Section -->
+        <section class="processing-section">
+            <div class="container">
+                <!-- File Upload Area -->
+                <div class="upload-zone" id="uploadZone">
+                    <div class="upload-content">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Drag & Drop Your Files Here</h3>
+                        <p>Or click to browse and select your ZOLL data folder</p>
+                        <input type="file" id="fileInput" multiple webkitdirectory directory>
+                        <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                            <i class="fas fa-folder-open"></i>
+                            Select Folder
+                        </button>
+                        <div class="supported-formats">
+                            <small>Supports: JSON files • Nested folders • Unlimited size</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Analysis Panel -->
+                <div class="analysis-panel" id="analysisPanel" style="display: none;">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-search"></i> File Analysis</h3>
+                        <button class="collapse-btn" id="collapseAnalysis">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="panel-content">
+                        <div class="file-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-file-code"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-number" id="totalFiles">0</span>
+                                    <span class="stat-label">JSON Files</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-folder"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-number" id="totalFolders">0</span>
+                                    <span class="stat-label">Folders</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-weight"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-number" id="totalSize">0</span>
+                                    <span class="stat-label">Total Size</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="file-tree" id="fileTree"></div>
+                    </div>
+                </div>
+
+                <!-- Processing Controls -->
+                <div class="process-controls" id="processControls" style="display: none;">
+                    <div class="control-group">
+                        <h3><i class="fas fa-cogs"></i> Processing Options</h3>
+                        <div class="options-grid">
+                            <label class="option-card">
+                                <input type="checkbox" id="includeUnknown" checked>
+                                <div class="option-content">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>Include Unknown Data</span>
+                                    <small>Export unclassified records to CSV</small>
+                                </div>
+                            </label>
+                            <label class="option-card">
+                                <input type="checkbox" id="validateSchedules" checked>
+                                <div class="option-content">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Validate Schedules</span>
+                                    <small>Check against simulation time windows</small>
+                                </div>
+                            </label>
+                            <label class="option-card">
+                                <input type="checkbox" id="generateSummary" checked>
+                                <div class="option-content">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>Generate Summary</span>
+                                    <small>Create processing summary report</small>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <button class="process-btn" id="processBtn">
+                        <i class="fas fa-magic"></i>
+                        <span>Process Data</span>
+                    </button>
+                </div>
+
+                <!-- Progress Section -->
+                <div class="progress-section" id="progressSection" style="display: none;">
+                    <div class="progress-header">
+                        <h3><i class="fas fa-spinner fa-spin"></i> Processing Your Data</h3>
+                        <div class="progress-stats">
+                            <span id="progressText">Initializing...</span>
+                            <span id="progressPercent">0%</span>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-details" id="progressDetails"></div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="results-section" id="resultsSection" style="display: none;">
+                    <div class="results-header">
+                        <h3><i class="fas fa-check-circle"></i> Processing Complete!</h3>
+                        <div class="results-summary" id="resultsSummary"></div>
+                    </div>
+                    <div class="download-area">
+                        <button class="download-btn" id="downloadBtn">
+                            <i class="fas fa-download"></i>
+                            <span>Download Organized Data</span>
+                            <small>ZIP file with sorted Excel files</small>
+                        </button>
+                    </div>
+                    <div class="results-details" id="resultsDetails"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Info Modal -->
+        <div class="modal-overlay" id="infoModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-info-circle"></i> About This Application</h2>
+                    <button class="modal-close" id="modalClose">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="info-section">
+                        <h3>What This Tool Does</h3>
+                        <p>This advanced web application processes medical simulation data from ZOLL devices, automatically organizing vital signs data into structured Excel files based on simulation schedules and mannequin assignments.</p>
+                    </div>
+                    <div class="info-section">
+                        <h3>Key Features</h3>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-browser"></i> 100% Browser-Based Processing</li>
+                            <li><i class="fas fa-shield-alt"></i> Complete Privacy - Files Never Leave Your Computer</li>
+                            <li><i class="fas fa-infinity"></i> Unlimited File Size Support</li>
+                            <li><i class="fas fa-bolt"></i> Lightning Fast Performance</li>
+                            <li><i class="fas fa-mobile-alt"></i> Works on All Devices</li>
+                            <li><i class="fas fa-palette"></i> Beautiful Dark/Light Themes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <p>&copy; 2024 Vital Signs Data Processor</p>
+                <p>Professional medical simulation data processing</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
