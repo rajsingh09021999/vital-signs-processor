@@ -1,6 +1,6 @@
 # Vital Signs Data Processor
 
-## Powerful, Beautiful, and Private Medical Data Processing
+## Powerful and Private Medical Data Processing
 
 Transform your ZOLL medical simulation data with this revolutionary **100% browser-based** application. No servers, no uploads, no limits—just pure power and privacy.
 
